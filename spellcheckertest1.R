@@ -27,28 +27,30 @@ correct <- function(word) {
   proposals_by_prob[1]
 }
 
-library(NLP)
-library(RWeka)
-library(tm)
+#In : takes in a dataframe column containing lemmas
+#Out: returns a bigram dictionary with counts
+bigramdict <- function(lemma){
+  #preallocate bigram vector
+  bi <- matrix(0,length(lemma)-1,1) 
+  for (i in 1:length(bi)){
+    bi[i] <- paste(lemma[i],lemma[i+1])
+  }
+  return(table(bi))
+  
+}
 
-#Make lemma bigrams
-bigrams <- ngrams(as.vector(althingi$Lemma) ,2)
-#Make tag trigrams
-trigrams <- ngrams(as.vector(althingi$Tag),3)
+#takes in a column of taggs and returns a trigram dictionary with counts
+trigramdict <- function(tagg){
+  #preallocate trigram vector
+  tri <- matrix(0,length(tagg)-2,1)
+  for (i in 1:length(tri)){
+    tri[i] <- paste(tagg[i],tagg[i+1],tagg[i+2])
+  }
+  return(table(tri))
+}
 
-lemmaindex <- function(lemma)
-  return(match(lemma,sorted_lemmas))
+bigrams <- bigramdict(althingi$Lemma)
+trigrams <- trigramdict(althingi$Tag)
 
-tagindex <- function(tag)
-  return(match(tag,sorted_tags))
+#write.csv(bigrams,'bigrams.csv',row.names = FALSE) #to save the results
 
-bigramcounts <- matrix(0,length(sorted_lemmas), length(sorted_lemmas))
-
-#this works in theory but takes a very very long time
-# j <- 2
-# for (i in 1:length(sentence)-1){
-#   x <- lemmaindex(sentence[i])
-#   y <- lemmaindex(sentence[j])
-#   bigramcounts[x,y] <-  bigramcounts[x,y] +1
-#   j <- j + 1
-# }
