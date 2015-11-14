@@ -1,6 +1,6 @@
-#temp = list.files(path="althingi_tagged/",pattern="*.csv")
-#for (i in 1:length(temp)) assign(temp[i], read.csv(paste("althingi_tagged/",temp[i],sep="/")))
-althingi <- read.csv("althingi_tagged/079.csv")
+temp = list.files(path="althingi_tagged/",pattern="*.csv")
+#for (i in 1:length(temp)) assign(temp[i], read.csv(paste("althingi_tagged/",temp[i],sep="/"), encoding = 'UTF-8'))
+althingi <- read.csv("althingi_tagged/079.csv", encoding = 'UTF-8' )
 
 word_count <- table(althingi$Word)
 sorted_words <- names(sort(word_count, decreasing = TRUE))
@@ -26,3 +26,29 @@ correct <- function(word) {
   # ... and return the first / most probable word in the vector.
   proposals_by_prob[1]
 }
+
+library(NLP)
+library(RWeka)
+library(tm)
+
+#Make lemma bigrams
+bigrams <- ngrams(as.vector(althingi$Lemma) ,2)
+#Make tag trigrams
+trigrams <- ngrams(as.vector(althingi$Tag),3)
+
+lemmaindex <- function(lemma)
+  return(match(lemma,sorted_lemmas))
+
+tagindex <- function(tag)
+  return(match(tag,sorted_tags))
+
+bigramcounts <- matrix(0,length(sorted_lemmas), length(sorted_lemmas))
+
+#this works in theory but takes a very very long time
+# j <- 2
+# for (i in 1:length(sentence)-1){
+#   x <- lemmaindex(sentence[i])
+#   y <- lemmaindex(sentence[j])
+#   bigramcounts[x,y] <-  bigramcounts[x,y] +1
+#   j <- j + 1
+# }
