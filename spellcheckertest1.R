@@ -52,5 +52,7 @@ trigramdict <- function(tagg){
 bigrams <- bigramdict(althingi$Lemma)
 trigrams <- trigramdict(althingi$Tag)
 
-#write.csv(bigrams,'bigrams.csv',row.names = FALSE) #to save the results
+#write.csv(bigrams,'bigrams079.csv',row.names = FALSE) #to save the results
+#write.csv(trigrams,'trigrams079.csv',row.names = FALSE) #to save the results
+#Skoda package plyr
 
