@@ -27,7 +27,7 @@ if(not exists("data_train")):
 
 if(not exists("data_test")):
     data_test = pd.read_csv("althingi_errors\\079.csv", index_col=None, header=0)
-    data_test = data_test[0:100]
+    data_test = data_test[0:500]
     data_test = data_test.reset_index(drop=True)
 
 #=============================DICTIONARIES=====================================
@@ -60,5 +60,5 @@ def countErrors(c, h):
             count += 1
     return count/total*100
 
-print("Error: "+str(countErrors(data_test, data_test_result))+"%")
+print("Accuracy: "+str(100-countErrors(data_test, data_test_result))+"%")
 print("Time: "+ str(round(end - start)))

@@ -2,13 +2,13 @@
 import pickle
 import math
 
-unicount = pickle.load(open('unicountSeria.p','rb'))
-bicount = pickle.load(open('bicountSeria.p','rb'))
-tricount = pickle.load(open('tricountSeria.p','rb'))
+unicount = pickle.load(open('p_data/unicountSeria.p','rb'))
+bicount = pickle.load(open('p_data/bicountSeria.p','rb'))
+tricount = pickle.load(open('p_data/tricountSeria.p','rb'))
 
-WordOrdabok = pickle.load(open('WordOrdabok.p','rb'))
-LemmaOrdabok = pickle.load(open('LemmaOrdabok.p','rb'))
-TagOrdabok = pickle.load(open('TagOrdabok.p','rb'))
+WordOrdabok = pickle.load(open('p_data/WordOrdabok.p','rb'))
+LemmaOrdabok = pickle.load(open('p_data/LemmaOrdabok.p','rb'))
+TagOrdabok = pickle.load(open('p_data/TagOrdabok.p','rb'))
 
 WordDict = dict(zip(WordOrdabok.values, WordOrdabok.index.values))
 LemmaDict = dict(zip(LemmaOrdabok.values, LemmaOrdabok.index.values))
