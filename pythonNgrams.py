@@ -1,25 +1,53 @@
 # -*- coding: utf-8 -*-
 import pandas as pd
+import os
+import pickle
 from nltk.util import ngrams
-from nltk.metrics import edit_distance
 from collections import Counter
 
-tagged079 = pd.read_csv('althingi_tagged\\080.csv')
-t079 = tagged079.fillna('')
 
-Words = t079['Word']
-Lemma = t079['Lemma']
-Tagg  = t079['Tag']
+def bigram(Lemma):
+    bigrams = ngrams(list(Lemma),2)
+    bigramscount = Counter(list(bigrams))
+    return bigramscount
+    
+def trigram(Tag):
+    trigrams = ngrams(list(Tag),3)
+    trigramscount = Counter(list(trigrams))
+    return trigramscount
 
-wordscount = Counter(list(Words))
+finalbigram  = Counter()
+finaltrigram = Counter()
 
-bigrams = ngrams(list(Lemma),2)
-bigramscount = Counter(list(bigrams))
+for i in os.listdir(os.getcwd()+'\\althingi_tagged'):
+  
+    t = pd.read_csv('althingi_tagged\\'+i)
+    t = t.fillna('')
+    
+    tLemma = t['Lemma']
+    tTag   = t['Tag']
+    
+    tbigramcount  = bigram(list(tLemma))
+    ttrigramcount = trigram(list(tTag))
+    
+    finalbigram = finalbigram + tbigramcount
+    finaltrigram = finaltrigram + ttrigramcount
+    
 
-trigrams = ngrams(list(Tagg),3)
-trigramscount = Counter(list(trigrams))
+pickle.dump(finalbigram,open('finalbigrams.p','wb'))
+pickle.dump(finaltrigram,open('finaltrigrams.p','wb'))
+
+wordlemmadict = dict(zip(t.Word))
 
 
+
+''' breyta indexi hjá orði í binary ,  AND tvö orð saman og telja síðan 
+
+#df = pd.DataFrame.from_dict(d, orient='index').reset_index()
+    
+    
+    
 
 #example bigramscount['að','vera']
+#example bigramscount.most_common(4)
 
