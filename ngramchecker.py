@@ -2,11 +2,15 @@
 import pickle
 import math
 
+unicount = pickle.load(open('unicountSeria.p','rb'))
 bicount = pickle.load(open('bicountSeria.p','rb'))
 tricount = pickle.load(open('tricountSeria.p','rb'))
+
+WordOrdabok = pickle.load(open('WordOrdabok.p','rb'))
 LemmaOrdabok = pickle.load(open('LemmaOrdabok.p','rb'))
 TagOrdabok = pickle.load(open('TagOrdabok.p','rb'))
 
+WordDict = dict(zip(WordOrdabok.values, WordOrdabok.index.values))
 LemmaDict = dict(zip(LemmaOrdabok.values, LemmaOrdabok.index.values))
 TagDict = dict(zip(TagOrdabok.values, TagOrdabok.index.values))
 
@@ -20,8 +24,18 @@ def lemmaindex(string):
 
 def tagindex(string):
     return TagDict.get(string, 'Na')
+    
+def wordindex(string):
+    return WordDict.get(string, 'Na')
+    
+def unigramcount(Word):
+    try:
+        index = wordindex(Word)
+        return unicount[index]
+    except:
+        return 0
 
-def bigramflettari(Lemma1,Lemma2):
+def bigramcount(Lemma1,Lemma2):
     try:
         index1 = lemmaindex(Lemma1)
         index2 = lemmaindex(Lemma2)
@@ -31,7 +45,7 @@ def bigramflettari(Lemma1,Lemma2):
     except:
         return 0
     
-def trigramflettari(Tag1,Tag2,Tag3):
+def trigramcount(Tag1,Tag2,Tag3):
     try:
         index1 = tagindex(Tag1)
         index2 = tagindex(Tag2)
@@ -42,9 +56,17 @@ def trigramflettari(Tag1,Tag2,Tag3):
         return count
     except:
         return 0
+        
+def Punigram(Word):
+    count = unigramcount(Word)
+    if count == 0:
+        logprobability = math.log(1/total)
+    else:
+        logprobability = math.log(count/total)
+    return logprobability
     
 def Pbigram(Lemma1,Lemma2):
-    count = bigramflettari(Lemma1,Lemma2)
+    count = bigramcount(Lemma1,Lemma2)
     if count == 0:
         logprobability = math.log(1/total)
     else:
@@ -52,7 +74,7 @@ def Pbigram(Lemma1,Lemma2):
     return logprobability
     
 def Ptrigram(Tag1,Tag2,Tag3):
-    count = trigramflettari(Tag1,Tag2,Tag3)
+    count = trigramcount(Tag1,Tag2,Tag3)
     if count == 0:
         logprobability =  math.log(1/total)
     else:
