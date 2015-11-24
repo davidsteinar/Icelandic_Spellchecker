@@ -14,7 +14,9 @@ WordDict = dict(zip(WordOrdabok.values, WordOrdabok.index.values))
 LemmaDict = dict(zip(LemmaOrdabok.values, LemmaOrdabok.index.values))
 TagDict = dict(zip(TagOrdabok.values, TagOrdabok.index.values))
 
-total = 143016871
+uniTotal = len(unicount)
+biTotal  = len(bicount)
+triTotal = len(tricount)
 
 def pairingfunction(a,b):
     return int( 0.5*(a+b)*(a+b+1)+b )
@@ -60,24 +62,24 @@ def trigramcount(Tag1,Tag2,Tag3):
 def Punigram(Word):
     count = unigramcount(Word)
     if count == 0:
-        logprobability = math.log(1/total)
+        logprobability = math.log(1/uniTotal)
     else:
-        logprobability = math.log(count/total)
+        logprobability = math.log(count/uniTotal)
     return logprobability
     
 def Pbigram(Lemma1,Lemma2):
     count = bigramcount(Lemma1,Lemma2)
     if count == 0:
-        logprobability = math.log(1/total)
+        logprobability = math.log(1/biTotal)
     else:
-        logprobability = math.log(count/total)
+        logprobability = math.log(count/biTotal)
     return logprobability
     
 def Ptrigram(Tag1,Tag2,Tag3):
     count = trigramcount(Tag1,Tag2,Tag3)
     if count == 0:
-        logprobability =  math.log(1/total)
+        logprobability =  math.log(1/triTotal)
     else:
-        logprobability = math.log(count/total)
+        logprobability = math.log(count/triTotal)
     return logprobability
     
