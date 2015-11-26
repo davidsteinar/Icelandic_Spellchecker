@@ -58,11 +58,12 @@ def printOriginalErrorRate(concept):
     for i in range(0, total-1):
         if((not pd.isnull(cWord[i])) and cWord[i] != cCWord[i]):
             countOriginal += 1
-    print("Original errors: "+str(countOriginal/total)+"%")
+    print("Original errors: "+str(countOriginal/total*100)+"%")
 
-fixErrors("080_test")
-inputData = pd.read_csv("080_test.csv")
-outputData = pd.read_csv("080_test_result.csv")
+csv_name = "080_test"
+fixErrors(csv_name)
+inputData = pd.read_csv(csv_name+".csv")
+outputData = pd.read_csv(csv_name+"_result.csv")
 printErrorRate(inputData, outputData)
 printOriginalErrorRate(inputData)
 """
